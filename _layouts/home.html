@@ -46,7 +46,22 @@ refactor: true
     color: #4299e1;
     padding: 0.5rem;
   }
+  details details {
+    margin-left: 1.5rem;  /* 层级缩进 */
+    background: #f0f4f8;  /* 次级背景色 */
+    border-color: #cbd5e0; /* 边框颜色 */
+  }
 
+  details details summary {
+    color: #2b6cb0;       /* 二级标题颜色 */
+    font-weight: 500;
+  }
+
+  /* 三级嵌套示例 */
+  details details details {
+    margin-left: 3rem;
+    background: #e2e8f0;
+  }
   /* 文章链接 */
   .post-link {
     display: block;
@@ -122,7 +137,25 @@ refactor: true
       </a>
     </div>
   </details>
-</div>
+
+  <details open>
+    <summary>🎮 diao图开发</summary>
+    <details open>
+      <summary>🎮 diao图开发</summary>
+      <div>
+        <a href="/posts/hello-world-copy" class="post-link">
+          ✅ 666666666
+          <div class="post-meta">2023-08-19 | #游戏 #引擎</div>
+        </a>
+      </div>
+      <div>
+        <a href="/posts/hello-world-copy" class="post-link">
+          ✅ 666666666
+          <div class="post-meta">2023-08-19 | #游戏 #引擎</div>
+        </a>
+      </div>
+  </details>
+</details>
 
 <script>
   // 折叠功能控制
@@ -133,7 +166,7 @@ refactor: true
     details.forEach(d => d.open = !allOpen);
     this.textContent = allOpen ? '展开全部' : '折叠全部';
   });
-
+</script>
 
 <script>
   // 强制深色模式检测
