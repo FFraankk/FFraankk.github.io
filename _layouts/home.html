@@ -16,43 +16,20 @@ refactor: true
 </style>
 
 <style>
-  :root {
-    /* 浅色模式 */
-    --text-primary: #2d3748;
-    --text-secondary: #4a5568;
-    --bg-primary: #ffffff;
-    --bg-secondary: #f7fafc;
-    --border-color: #e2e8f0;
-    --accent-color: #4299e1;
-    --tag-bg: #ebf8ff;
-    --tag-text: #2b6cb0;
-
-    /* 深色模式 */
-    @media (prefers-color-scheme: dark) {
-      --text-primary: #e2e8f0;
-      --text-secondary: #a0aec0;
-      --bg-primary: #1a202c;    /* 修正背景色 */
-      --bg-secondary: #2d3748;  /* 次级背景色 */
-      --border-color: #4a5568;
-      --accent-color: #63b3ed;
-      --tag-bg: #2b6cb0;
-      --tag-text: #ebf8ff;
-    }
-  }
-
+  /* 基础容器 */
   .content-container {
     max-width: 800px;
     margin: 0 auto;
     padding: 2rem;
-    background: var(--bg-primary);
-    color: var(--text-primary);
-    min-height: 100vh; /* 保证全屏背景 */
+    background: #ffffff;
+    color: #2d3748;
+    min-height: 100vh;
   }
 
-  /* 修复折叠面板样式 */
+  /* 折叠区块 */
   details {
-    background: var(--bg-secondary);
-    border: 1px solid var(--border-color);
+    background: #f8fafc;
+    border: 1px solid #e2e8f0;
     border-radius: 8px;
     margin: 1rem 0;
     padding: 1rem;
@@ -61,30 +38,32 @@ refactor: true
   summary {
     cursor: pointer;
     font-weight: 600;
-    color: var(--accent-color);
+    color: #4299e1;
     padding: 0.5rem;
   }
 
+  /* 文章链接 */
   .post-link {
     display: block;
     padding: 0.8rem;
-    color: var(--text-primary) !important;
+    color: #2d3748;
     text-decoration: none;
-    transition: background 0.2s;
   }
 
   .post-link:hover {
     background: rgba(0,0,0,0.05);
   }
 
+  /* 元数据 */
   .post-meta {
     font-size: 0.9rem;
-    color: var(--text-secondary);
+    color: #4a5568;
     margin-top: 0.5rem;
   }
 
+  /* 按钮样式 */
   .btn {
-    background: var(--accent-color);
+    background: #4299e1;
     color: white;
     padding: 0.6rem 1.2rem;
     border-radius: 6px;
@@ -150,6 +129,13 @@ refactor: true
     this.textContent = allOpen ? '展开全部' : '折叠全部';
   });
 
+
+<script>
+  // 强制深色模式检测
+  function updateColors() {
+    const isDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+    document.documentElement.style.setProperty('--block-bg', isDark ? '#2d3748' : '#ffffff');
+  }
   
   // 初始化检测
   updateTheme();
