@@ -21,34 +21,60 @@ refactor: true
 
 
 <style>
-  /* 全局基础设置 */
-  html, body {
-    background: #ffffff !important;
-    color: #2d3748 !important;
-  }
-
-  /* 内容容器 */
+  /* 基础容器 */
   .content-container {
+    max-width: 800px;
+    margin: 0 auto;
+    padding: 2rem;
     background: #ffffff;
     color: #2d3748;
+    min-height: 100vh;
   }
 
   /* 折叠区块 */
   details {
     background: #f8fafc;
-    border-color: #e2e8f0;
+    border: 1px solid #e2e8f0;
+    border-radius: 8px;
+    margin: 1rem 0;
+    padding: 1rem;
   }
 
-  /* 覆盖所有可能继承的样式 */
-  details, summary, .post-link, .post-meta {
-    background: #f8fafc !important;
-    color: #2d3748 !important;
+  summary {
+    cursor: pointer;
+    font-weight: 600;
+    color: #4299e1;
+    padding: 0.5rem;
   }
 
-  /* 按钮样式锁定 */
+  /* 文章链接 */
+  .post-link {
+    display: block;
+    padding: 0.8rem;
+    color: #2d3748;
+    text-decoration: none;
+  }
+
+  .post-link:hover {
+    background: rgba(0,0,0,0.05);
+  }
+
+  /* 元数据 */
+  .post-meta {
+    font-size: 0.9rem;
+    color: #4a5568;
+    margin-top: 0.5rem;
+  }
+
+  /* 按钮样式 */
   .btn {
-    background: #4299e1 !important;
-    color: white !important;
+    background: #4299e1;
+    color: white;
+    padding: 0.6rem 1.2rem;
+    border-radius: 6px;
+    border: none;
+    cursor: pointer;
+    margin-right: 1rem;
   }
 </style>
 
