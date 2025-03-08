@@ -1,6 +1,6 @@
 @mixin styles {
   /* Framework color */
-  --main-bg: white;
+  --main-bg: #eaeef1;
   --mask-bg: #c1c3c5;
   --main-border-color: #f3f3f3;
 
@@ -35,7 +35,7 @@
   /* Sidebar */
   --site-title-color: rgb(113, 113, 113);
   --site-subtitle-color: #717171;
-  --sidebar-bg: #f6f8fa;
+  --sidebar-bg: #efefef;
   --sidebar-border-color: #efefef;
   --sidebar-muted-color: #545454;
   --sidebar-active-color: #1d1d1d;
@@ -45,7 +45,7 @@
   --avatar-border-color: white;
 
   /* Topbar */
-  --topbar-bg: rgb(255, 255, 255, 0.7);
+  --topbar-bg: #eaeef1;
   --topbar-text-color: rgb(78, 78, 78);
   --search-border-color: rgb(240, 240, 240);
   --search-icon-color: #c2c6cc;
