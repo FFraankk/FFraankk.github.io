@@ -195,12 +195,17 @@ refactor: true
 </details>
 
 <script>
-  // 折叠功能控制
-  document.getElementById('toggleAll').addEventListener('click', function() {
-    const details = document.querySelectorAll('details');
-    const allOpen = Array.from(details).every(d => d.open);
-    
-    details.forEach(d => d.open = !allOpen);
-    this.textContent = allOpen ? '展开全部' : '折叠全部';
+  document.addEventListener('DOMContentLoaded', function() {
+    const toggleBtn = document.getElementById('toggleAll');
+    if (!toggleBtn) return;  // 如果按钮没找到，就退出
+
+    toggleBtn.addEventListener('click', function() {
+      const details = document.querySelectorAll('details');
+      const allOpen = Array.from(details).every(d => d.open);
+      
+      details.forEach(d => d.open = !allOpen);
+      this.textContent = allOpen ? '展开全部' : '折叠全部';
+    });
   });
 </script>
+
