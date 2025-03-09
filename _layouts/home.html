@@ -195,13 +195,29 @@ refactor: true
 </details>
 
 <script>
-  // 折叠功能控制
-  document.getElementById('toggleAll').addEventListener('click', function() {
+  function toggleDetails() {
     const details = document.querySelectorAll('details');
-    const allOpen = Array.from(details).every(d => d.open);
-    
-    details.forEach(d => d.open = !allOpen);
-    this.textContent = allOpen ? '展开全部' : '折叠全部';
+    const button = document.getElementById('toggleAll'); // 修正 ID
+    const areAllOpen = Array.from(details).every((detail) => detail.hasAttribute('open'));
+
+    details.forEach((detail) => {
+      if (areAllOpen) {
+        detail.removeAttribute('open');
+      } else {
+        detail.setAttribute('open', '');
+      }
+    });
+
+    button.innerText = areAllOpen ? '展开所有小分页' : '折叠所有小分页';
+  }
+
+  // 确保 DOM 加载完成后绑定事件
+  document.addEventListener('DOMContentLoaded', function() {
+    const button = document.getElementById('toggleAll');
+    if (button) {
+      button.addEventListener('click', toggleDetails);
+    } else {
+      console.error('未找到切换按钮！');
+    }
   });
 </script>
-
