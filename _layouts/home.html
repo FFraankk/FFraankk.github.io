@@ -205,14 +205,3 @@ refactor: true
   });
 </script>
 
-<script>
-  // 强制深色模式检测
-  function updateColors() {
-    const isDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
-    document.documentElement.style.setProperty('--block-bg', isDark ? '#2d3748' : '#ffffff');
-  }
-  
-  // 初始化检测
-  updateTheme();
-  window.matchMedia('(prefers-color-scheme: dark)').addListener(updateTheme);
-</script>
