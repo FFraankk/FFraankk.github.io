@@ -97,29 +97,31 @@ refactor: true
   <button class="btn" id="toggleAll">折叠全部</button>
   <button class="btn" onclick="location.reload()">刷新页面</button>
 
-  <!-- 示例分类 1 -->
+  <!-- 分类 1 -->
   <details open>
     <summary>📚 折腾系统</summary>
-      <details open>
+    
+    <details open>
       <summary>🎮 Windows</summary>
-        <div>
-          <a href="/posts/Windows11安装Ubuntu双系统" class="post-link">
-            🔜 Windows11安装Ubuntu双系统
-            <div class="post-meta">2023-12-20 | #Ubuntu #Windows</div>
-          </a>
-      
-          <a href="/posts/Windows11安装Ubuntu虚拟机" class="post-link">
-            🔜 Windows11安装Ubuntu虚拟机
-            <div class="post-meta">2023-08-16 | #Ubuntu #Windows</div>
-          </a>
+      <div>
+        <a href="/posts/Windows11安装Ubuntu双系统" class="post-link">
+          🔜 Windows11安装Ubuntu双系统
+          <div class="post-meta">2023-12-20 | #Ubuntu #Windows</div>
+        </a>
+        
+        <a href="/posts/Windows11安装Ubuntu虚拟机" class="post-link">
+          🔜 Windows11安装Ubuntu虚拟机
+          <div class="post-meta">2023-08-16 | #Ubuntu #Windows</div>
+        </a>
 
-          <a href="/posts/Windows11安装Ubuntu_WSL" class="post-link">
-            🔜 Windows11安装Ubuntu_WSL
-            <div class="post-meta">2023-08-16 | #Ubuntu #Windows</div>
-          </a>
-          </div>   
-      </details>       
-      <details open>
+        <a href="/posts/Windows11安装Ubuntu_WSL" class="post-link">
+          🔜 Windows11安装Ubuntu_WSL
+          <div class="post-meta">2023-08-16 | #Ubuntu #Windows</div>
+        </a>
+      </div>   
+    </details>       
+    
+    <details open>
       <summary>🎮 All In One</summary>
       <div>
         <a href="/posts/hello-world-copy" class="post-link">
@@ -147,10 +149,10 @@ refactor: true
           <div class="post-meta">2023-08-19 | #游戏 #PVE</div>
         </a>
       </div>
-      </details>
+    </details>
   </details>
 
-  <!-- 示例分类 2 -->
+  <!-- 分类 2 -->
   <details open>
     <summary>💻 NONE</summary>
     <div>
@@ -165,7 +167,7 @@ refactor: true
     </div>
   </details>
 
-  <!-- 示例分类 3 -->
+  <!-- 分类 3 -->
   <details open>
     <summary>🎮 NONE</summary>
     <div>
@@ -176,6 +178,7 @@ refactor: true
     </div>
   </details>
 
+  <!-- 嵌套分类 -->
   <details open>
     <summary>🎮 NONE</summary>
     <details open>
@@ -191,21 +194,18 @@ refactor: true
           <div class="post-meta">2023-08-19 | #游戏 #引擎</div>
         </a>
       </div>
+    </details>
   </details>
-</details>
+</div>
 
 <script>
-  document.addEventListener('DOMContentLoaded', function() {
-    const toggleBtn = document.getElementById('toggleAll');
-    if (!toggleBtn) return;  // 如果按钮没找到，就退出
-
-    toggleBtn.addEventListener('click', function() {
-      const details = document.querySelectorAll('details');
-      const allOpen = Array.from(details).every(d => d.open);
-      
-      details.forEach(d => d.open = !allOpen);
-      this.textContent = allOpen ? '展开全部' : '折叠全部';
-    });
+  // 折叠功能控制
+  document.getElementById('toggleAll').addEventListener('click', function() {
+    const details = document.querySelectorAll('details');
+    const allOpen = Array.from(details).every(d => d.open);
+    
+    details.forEach(d => d.open = !allOpen);
+    this.textContent = allOpen ? '展开全部' : '折叠全部';
   });
 </script>
 
