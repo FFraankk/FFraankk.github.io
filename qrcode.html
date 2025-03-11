@@ -44,8 +44,7 @@
     </div>
 
     <img id="preview" alt="图片预览">
-          // 在页面添加摄像头按钮
-    <button onclick="initCamera()">启用摄像头扫描</button>
+    
     <div id="result" class="hidden"></div>
 
     <!-- 使用 jsQR 库 -->
@@ -73,34 +72,6 @@
                 showResult(`解析失败：${error.message}`, true);
             }
         }
-      // 在handleFile函数后添加
-      async function initCamera() {
-          try {
-              const stream = await navigator.mediaDevices.getUserMedia({ video: { facingMode: "environment" } });
-              const video = document.createElement('video');
-              video.srcObject = stream;
-              video.play();
-              
-              requestAnimationFrame(function tick() {
-                  if (video.readyState === video.HAVE_ENOUGH_DATA) {
-                      const canvas = document.createElement('canvas');
-                      canvas.width = video.videoWidth;
-                      canvas.height = video.videoHeight;
-                      canvas.getContext('2d').drawImage(video, 0, 0);
-                      const imageData = canvas.getContext('2d').getImageData(0, 0, canvas.width, canvas.height);
-                      const qrCode = jsQR(imageData.data, imageData.width, imageData.height);
-                      if (qrCode) {
-                          showResult(`实时解码：<br>${qrCode.data}`);
-                      }
-                  }
-                  requestAnimationFrame(tick);
-              });
-          } catch (error) {
-              showResult(`摄像头访问失败：${error.message}`, true);
-          }
-      }
-      
-
 
         // 加载图片到Canvas
         async function loadImage(file) {
