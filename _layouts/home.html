@@ -19,6 +19,30 @@ refactor: true
   }
 </style>
 
+<!-- 修改后的按钮容器 -->
+<div style="margin: 20px 0; margin-left: 2%;">  <!-- 增加左侧边距 -->
+  <a href="/function/qrcodedecoder.html" class="btn" 
+     style="background: #25d366;
+            padding: 12px 24px;
+            font-size: 1.1rem;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+            transition: all 0.3s ease;
+            display: inline-block; /* 确保可以左对齐 */
+            text-align: left;">  <!-- 强制左对齐 -->
+    🚀 二维码解析工具
+  </a>
+</div>
+
+<style>
+  /* 新增响应式调整 */
+  @media (max-width: 768px) {
+    .btn {
+      margin-left: 5% !important;  /* 移动端增加左侧间距 */
+      width: 90%;                  /* 保持按钮宽度 */
+      box-sizing: border-box;      /* 包含padding */
+    }
+  }
+</style>
 
 <style>
   /* 基础容器 */

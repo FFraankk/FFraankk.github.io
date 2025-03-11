@@ -1,0 +1,316 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>全能二维码解析器</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            max-width: 800px;
+            margin: 20px auto;
+            padding: 20px;
+        }
+        /* 模式切换选项卡 */
+        .mode-switcher {
+            display: flex;
+            margin-bottom: 20px;
+            border-bottom: 2px solid #eee;
+        }
+        .mode-btn {
+            flex: 1;
+            padding: 12px;
+            border: none;
+            background: none;
+            cursor: pointer;
+            font-size: 16px;
+            transition: all 0.3s;
+        }
+        .mode-btn.active {
+            border-bottom: 3px solid #25d366;
+            color: #25d366;
+            font-weight: bold;
+        }
+        /* 摄像头模式专用样式 */
+        #camera-container {
+            position: relative;
+            display: none;
+        }
+        #video {
+            width: 100%;
+            border: 2px solid #ddd;
+            border-radius: 8px;
+        }
+        .scan-box {
+            position: absolute;
+            border: 3px solid #25d366;
+            width: 60%;
+            height: 60%;
+            left: 20%;
+            top: 20%;
+            box-shadow: 0 0 20px rgba(0,0,0,0.2);
+        }
+        /* 上传模式专用样式 */
+        #drop-zone {
+            border: 2px dashed #ccc;
+            padding: 30px;
+            text-align: center;
+            margin: 20px 0;
+            cursor: pointer;
+            display: none;
+        }
+        #preview {
+            max-width: 300px;
+            max-height: 300px;
+            margin: 20px auto;
+            display: none;
+        }
+        /* 通用样式 */
+        .button-group {
+            margin: 15px 0;
+            text-align: center;
+        }
+        .btn {
+            padding: 10px 20px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 1rem;
+            margin: 0 10px;
+            transition: all 0.3s;
+        }
+        #snap-btn {
+            background: #1877f2;
+            color: white;
+        }
+        #result {
+            padding: 15px;
+            background: #f5f5f5;
+            border-radius: 8px;
+            margin-top: 20px;
+            word-break: break-all;
+        }
+        .hidden {
+            display: none;
+        }
+    </style>
+</head>
+<body>
+    <h1>全能二维码解析器</h1>
+    
+    <!-- 模式切换 -->
+    <div class="mode-switcher">
+        <button class="mode-btn active" data-mode="upload">图片上传模式</button>
+        <button class="mode-btn" data-mode="camera">摄像头扫描模式</button>
+    </div>
+
+    <!-- 上传模式内容 -->
+    <div id="drop-zone">
+        <p>拖放图片至此 或 点击选择文件</p>
+        <input type="file" id="file-input" accept="image/*">
+    </div>
+    <img id="preview" alt="图片预览">
+
+    <!-- 摄像头模式内容 -->
+    <div id="camera-container">
+        <div class="scan-box"></div>
+        <video id="video" playsinline></video>
+        <canvas id="canvas" class="hidden"></canvas>
+    </div>
+    <div class="button-group">
+        <button class="btn" id="snap-btn">📸 拍照识别</button>
+        <button class="btn" id="stop-btn">⏹ 关闭摄像头</button>
+    </div>
+
+    <!-- 结果展示 -->
+    <div id="result" class="hidden"></div>
+
+    <script src="https://cdn.jsdelivr.net/npm/jsqr@1.4.0/dist/jsQR.min.js"></script>
+
+    <script>
+        // 通用元素
+        const modeBtns = document.querySelectorAll('.mode-btn');
+        const dropZone = document.getElementById('drop-zone');
+        const cameraContainer = document.getElementById('camera-container');
+        const resultDiv = document.getElementById('result');
+
+        // 上传模式元素
+        const fileInput = document.getElementById('file-input');
+        const preview = document.getElementById('preview');
+
+        // 摄像头模式元素
+        const video = document.getElementById('video');
+        const canvas = document.getElementById('canvas');
+        const snapBtn = document.getElementById('snap-btn');
+        const stopBtn = document.getElementById('stop-btn');
+        let scanning = false;
+        let stream = null;
+
+        // 模式切换处理
+        function switchMode(mode) {
+            // 切换按钮状态
+            modeBtns.forEach(btn => btn.classList.remove('active'));
+            document.querySelector(`[data-mode="${mode}"]`).classList.add('active');
+
+            // 切换内容显示
+            if (mode === 'upload') {
+                dropZone.style.display = 'block';
+                cameraContainer.style.display = 'none';
+                snapBtn.style.display = 'none';
+                stopBtn.style.display = 'none';
+                if (stream) stopCamera();
+            } else {
+                dropZone.style.display = 'none';
+                cameraContainer.style.display = 'block';
+                snapBtn.style.display = 'inline-block';
+                initCamera();
+            }
+        }
+
+        // 初始化摄像头
+        async function initCamera() {
+            try {
+                stream = await navigator.mediaDevices.getUserMedia({
+                    video: { facingMode: "environment" }
+                });
+                video.srcObject = stream;
+                await video.play();
+                startScan();
+            } catch (error) {
+                showResult(`摄像头访问失败: ${error.message}`, true);
+            }
+        }
+
+        // 开始扫描
+        function startScan() {
+            scanning = true;
+            canvas.width = video.videoWidth;
+            canvas.height = video.videoHeight;
+            
+            function tick() {
+                if (!scanning) return;
+                
+                const ctx = canvas.getContext('2d');
+                ctx.drawImage(video, 0, 0);
+                const imageData = ctx.getImageData(0, 0, canvas.width, canvas.height);
+                const code = jsQR(imageData.data, imageData.width, imageData.height);
+                
+                if (code) {
+                    showResult(`实时识别结果：<br><strong>${code.data}</strong>`);
+                }
+                requestAnimationFrame(tick);
+            }
+            tick();
+        }
+
+        // 拍照识别
+        function snapAndDecode() {
+            const ctx = canvas.getContext('2d');
+            ctx.drawImage(video, 0, 0);
+            const imageData = ctx.getImageData(0, 0, canvas.width, canvas.height);
+            const code = jsQR(imageData.data, imageData.width, video.videoHeight);
+            
+            if (code) {
+                showResult(`拍照识别结果：<br><strong>${code.data}</strong>`);
+            } else {
+                showResult("未检测到二维码", true);
+            }
+        }
+
+        // 关闭摄像头
+        function stopCamera() {
+            if (stream) {
+                stream.getTracks().forEach(track => track.stop());
+                scanning = false;
+                video.srcObject = null;
+            }
+        }
+
+        // 文件处理（原上传功能）
+        async function handleFile(file) {
+            try {
+                const imageData = await loadImage(file);
+                const qrCode = jsQR(imageData.data, imageData.width, imageData.height);
+                
+                if (qrCode) {
+                    showResult(`解码成功：<br>${qrCode.data}`);
+                } else {
+                    showResult("未检测到二维码", true);
+                }
+            } catch (error) {
+                showResult(`解析失败：${error.message}`, true);
+            }
+        }
+
+        async function loadImage(file) {
+            return new Promise((resolve, reject) => {
+                const img = new Image();
+                const reader = new FileReader();
+                
+                reader.onload = (e) => {
+                    img.onload = () => {
+                        const canvas = document.createElement('canvas');
+                        const ctx = canvas.getContext('2d');
+                        
+                        const maxSize = 800;
+                        let width = img.width;
+                        let height = img.height;
+                        
+                        if (width > maxSize || height > maxSize) {
+                            const ratio = Math.min(maxSize/width, maxSize/height);
+                            width = width * ratio;
+                            height = height * ratio;
+                        }
+                        
+                        canvas.width = width;
+                        canvas.height = height;
+                        ctx.drawImage(img, 0, 0, width, height);
+                        
+                        resolve(ctx.getImageData(0, 0, width, height));
+                    };
+                    img.src = e.target.result;
+                    preview.src = e.target.result;
+                    preview.style.display = 'block';
+                };
+                reader.readAsDataURL(file);
+            });
+        }
+
+        // 显示结果
+        function showResult(text, isError = false) {
+            resultDiv.innerHTML = text;
+            resultDiv.style.color = isError ? '#ff4444' : '#25d366';
+            resultDiv.classList.remove('hidden');
+        }
+
+        // 事件监听
+        modeBtns.forEach(btn => {
+            btn.addEventListener('click', () => switchMode(btn.dataset.mode));
+        });
+
+        fileInput.addEventListener('change', (e) => {
+            if (e.target.files.length > 0) {
+                handleFile(e.target.files[0]);
+            }
+        });
+
+        dropZone.addEventListener('dragover', (e) => e.preventDefault());
+        dropZone.addEventListener('dragleave', (e) => e.preventDefault());
+        dropZone.addEventListener('drop', (e) => {
+            e.preventDefault();
+            if (e.dataTransfer.files.length > 0) {
+                handleFile(e.dataTransfer.files[0]);
+            }
+        });
+
+        snapBtn.addEventListener('click', snapAndDecode);
+        stopBtn.addEventListener('click', () => {
+            stopCamera();
+            switchMode('upload');
+        });
+
+        // 初始化默认模式
+        switchMode('upload');
+    </script>
+</body>
+</html>
