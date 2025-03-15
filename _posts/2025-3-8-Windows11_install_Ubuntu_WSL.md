@@ -1,10 +1,11 @@
 ---
-title: Windows11安装Ubuntu_WSL
+title: Windows11 安装 Ubuntu WSL
 date: 2025-3-15 22:00:00 +0800
 categories: [Windows,Ubuntu]
 tags: [Ubuntu,Windows]
 author: FFraankk
 ---
+
 # 安装WSL
 
 配置条件：windows11 

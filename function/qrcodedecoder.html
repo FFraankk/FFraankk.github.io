@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>全能二维码解析器</title>
     <style>
+        
         body {
             font-family: Arial, sans-serif;
             max-width: 800px;
@@ -93,11 +94,33 @@
         .hidden {
             display: none;
         }
+        a[href="https://ffraankk.github.io"]:hover {
+            background: #1da851;
+            transform: translateY(-50%) scale(1.05);
+            box-shadow: 0 2px 8px rgba(0,0,0,0.2);
+        }
     </style>
 </head>
 <body>
     <h1>全能二维码解析器</h1>
-    
+    <div style="position: relative;">
+        <h1 style="display: inline-block;">全能二维码解析器</h1>
+        <a href="https://ffraankk.github.io" 
+           style="position: absolute;
+                  right: 0;
+                  top: 50%;
+                  transform: translateY(-50%);
+                  padding: 8px 15px;
+                  background: #25d366;
+                  color: white;
+                  text-decoration: none;
+                  border-radius: 20px;
+                  font-size: 14px;
+                  transition: all 0.3s;
+                  border: 2px solid #1da851;">
+            ← 返回主站
+        </a>
+    </div>
     <!-- 模式切换 -->
     <div class="mode-switcher">
         <button class="mode-btn active" data-mode="upload">图片上传模式</button>
