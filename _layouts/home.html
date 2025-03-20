@@ -20,26 +20,49 @@ refactor: true
 </style>
 
 <!-- 修改后的按钮容器 -->
-<div style="margin: 20px 0; margin-left: 2%;">  <!-- 增加左侧边距 -->
-  <a href="/function/qrcodedecoder.html" class="btn" 
-     style="background: #25d366;
-            padding: 12px 24px;
-            font-size: 1.1rem;
-            box-shadow: 0 2px 5px rgba(0,0,0,0.2);
-            transition: all 0.3s ease;
-            display: inline-block; /* 确保可以左对齐 */
-            text-align: left;">  <!-- 强制左对齐 -->
-    🚀 二维码解析工具
-  </a>
+<div style="margin: 20px 0; margin-left: 2%;">
+  <div class="tool-buttons">
+    <a href="/function/qrcodedecoder.html" class="btn" 
+       style="background: #25d366;
+              margin-right: 15px;
+              padding: 12px 24px;
+              font-size: 1.1rem;
+              box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+              transition: all 0.3s ease;">
+      🚀 二维码解析工具
+    </a>
+
+    <a href="/function/serial.html" class="btn"
+       style="background: #2196F3;
+              padding: 12px 24px;
+              font-size: 1.1rem;
+              box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+              transition: all 0.3s ease;">
+      🛠️ 串口调试工具
+    </a>
+  </div>
 </div>
 
+
 <style>
-  /* 新增响应式调整 */
+  /* 新增工具按钮布局 */
+  .tool-buttons {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 15px;
+  }
+
+  /* 响应式调整 */
   @media (max-width: 768px) {
+    .tool-buttons {
+      flex-direction: column;
+    }
+    
     .btn {
-      margin-left: 5% !important;  /* 移动端增加左侧间距 */
-      width: 90%;                  /* 保持按钮宽度 */
-      box-sizing: border-box;      /* 包含padding */
+      width: 90%;
+      margin-left: 5% !important;
+      box-sizing: border-box;
+      text-align: center;
     }
   }
 </style>
