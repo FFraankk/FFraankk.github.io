@@ -2,7 +2,7 @@
 title: ROS2和Miniconda安装
 date: 2025-3-17 2:00:00 +0800
 categories: [Robotics,ROS]
-tags: [ROS,Robotics，conda，miniconda]
+tags: [ROS,Robotics,conda,miniconda]
 author: FFraankk
 ---
 
