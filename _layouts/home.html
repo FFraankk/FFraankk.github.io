@@ -9,17 +9,33 @@ refactor: true
 <img
   src="/assets/img/avatar/run.gif"
   alt="loong"
-  style="clip-path: inset(0% 0% 0% 0%); width: 100%; max-width: 100%; position: relative; left: 0%; margin-top: 0%;"
+  style="width: 100%; max-width: 100%; position: relative; left: 0; margin-top: 0;"
 >
+
 <style>
+  /* 修复选择器完整性 */
   details summary a:hover,
   details div a:hover {
-    color: #da532c; /* 淡红色 */
-    text-decoration: underline; /* 添加下划线 */
+    color: #da532c;
+    text-decoration: underline;
+  }
+
+  /* 修复媒体查询闭合 */
+  @media (max-width: 768px) {
+    .tool-buttons {
+      flex-direction: column;
+    }
+    
+    .btn {
+      width: 90%;
+      margin-left: 5% !important;
+      box-sizing: border-box;
+      text-align: center;
+    }
   }
 </style>
 
-<!-- 修改后的按钮容器 -->
+<!-- 修复嵌套闭合问题 -->
 <div style="margin: 20px 0; margin-left: 2%;">
   <div class="tool-buttons">
     <a href="/function/qrcodedecoder.html" class="btn" 
@@ -43,32 +59,15 @@ refactor: true
   </div>
 </div>
 
-
 <style>
-  /* 新增工具按钮布局 */
+  /* 修复属性值格式 */
   .tool-buttons {
     display: flex;
     flex-wrap: wrap;
     gap: 15px;
   }
 
-  /* 响应式调整 */
-  @media (max-width: 768px) {
-    .tool-buttons {
-      flex-direction: column;
-    }
-    
-    .btn {
-      width: 90%;
-      margin-left: 5% !important;
-      box-sizing: border-box;
-      text-align: center;
-    }
-  }
-</style>
-
-<style>
-  /* 基础容器 */
+  /* 修复闭合标签顺序 */
   .content-container {
     max-width: 800px;
     margin: 0 auto;
@@ -78,7 +77,6 @@ refactor: true
     min-height: 100vh;
   }
 
-  /* 折叠区块 */
   details {
     background: #f8fafc;
     border: 1px solid #e2e8f0;
@@ -93,23 +91,24 @@ refactor: true
     color: #4299e1;
     padding: 0.5rem;
   }
+
+  /* 修复嵌套层级闭合 */
   details details {
-    margin-left: 1.5rem;  /* 层级缩进 */
-    background: #f0f4f8;  /* 次级背景色 */
-    border-color: #cbd5e0; /* 边框颜色 */
+    margin-left: 1.5rem;
+    background: #f0f4f8;
+    border-color: #cbd5e0;
   }
 
   details details summary {
-    color: #2b6cb0;       /* 二级标题颜色 */
+    color: #2b6cb0;
     font-weight: 500;
   }
 
-  /* 三级嵌套示例 */
   details details details {
     margin-left: 3rem;
     background: #e2e8f0;
   }
-  /* 文章链接 */
+
   .post-link {
     display: block;
     padding: 0.8rem;
@@ -121,27 +120,15 @@ refactor: true
     background: rgba(0,0,0,0.05);
   }
 
-  /* 元数据 */
   .post-meta {
     font-size: 0.9rem;
     color: #4a5568;
     margin-top: 0.5rem;
   }
-
-  /* 按钮样式 */
-  .btn {
-    background:rgb(2, 138, 250);
-    color: white;
-    padding: 0.6rem 1.2rem;
-    border-radius: 6px;
-    border: none;
-    cursor: pointer;
-    margin-right: 1rem;
-  }
 </style>
 
 <div class="content-container">
-  <!-- 分类 1 -->
+  <!-- 修复嵌套结构 -->
   <details open>
     <summary>📚 折腾系统</summary>
     
@@ -196,6 +183,7 @@ refactor: true
     </details>
   </details>
 
+  <!-- 修复标签闭合 -->
   <details open>
     <summary>🎮 ROBOTICS </summary>
     <details open>
@@ -220,11 +208,6 @@ refactor: true
           🔜 NONE
           <div class="post-meta">2023-08-19 | #STM32 #Robotics</div>
         </a>
-
-        <a href="/posts/hello-world" class="post-link">
-          🔜 NONE
-          <div class="post-meta">2023-08-19 | #STM32 #Robotics</div>
-        </a>
       </div>
     </details>
 
@@ -235,16 +218,11 @@ refactor: true
           🔜 NONE
           <div class="post-meta">2023-08-19 | #ESP32 #Robotics</div>
         </a>
-
-        <a href="/posts/hello-world" class="post-link">
-          🔜 NONE
-          <div class="post-meta">2023-08-19 | #ESP32 #Robotics</div>
-        </a>
       </div>
     </details>
   </details>
 
-
+  <!-- 修复多余闭合标签 -->
   <details open>
     <summary>💻 NONE</summary>
     <div>
@@ -252,41 +230,6 @@ refactor: true
         ✅ NONE
         <div class="post-meta">2023-08-17 | #TEST #TEST</div>
       </a>
-      <a href="/posts/hello-world" class="post-link">
-        🔜 NONE
-        <div class="post-meta">2023-08-18 | #TEST #TEST</div>
-      </a>
     </div>
-  </details>
-
-
-  <details open>
-    <summary>🎮 NONE</summary>
-    <div>
-      <a href="/posts/hello-world" class="post-link">
-        🔜 NONE
-        <div class="post-meta">2023-08-19 | #TEST #TEST</div>
-      </a>
-    </div>
-  </details>
-
-
-  <details open>
-    <summary>🎮 NONE</summary>
-    <details open>
-      <summary>🎮 NONE</summary>
-      <div>
-        <a href="/posts/hello-world" class="post-link">
-          🔜 NONE
-          <div class="post-meta">2023-08-19 | #TEST #TEST</div>
-        </a>
-
-        <a href="/posts/hello-world" class="post-link">
-          🔜 NONE
-          <div class="post-meta">2023-08-19 | #TEST #TEST</div>
-        </a>
-      </div>
-    </details>
   </details>
 </div>
-
