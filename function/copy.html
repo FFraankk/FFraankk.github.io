@@ -1,0 +1,181 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+  <meta charset="UTF-8">
+  <title>网络粘贴板 - 云端与本地</title>
+  <style>
+    body {
+      font-family: sans-serif;
+      max-width: 600px;
+      margin: 40px auto;
+      background: #f2f2f2;
+      padding: 20px;
+      border-radius: 10px;
+      /* 移除绝对定位，使用容器布局 */
+    }
+    /* 新增头部容器样式 */
+    .header-container {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 20px;
+    }
+    .header-container h1 {
+      margin: 0;
+      font-size: 1.8rem;
+    }
+    .back-btn {
+      padding: 8px 15px;
+      background: #25d366;
+      color: white;
+      text-decoration: none;
+      border-radius: 20px;
+      font-size: 14px;
+      transition: all 0.3s;
+      border: 2px solid #1da851;
+    }
+    section {
+      margin-bottom: 40px;
+      padding: 20px;
+      background: #fff;
+      border: 1px solid #ccc;
+      border-radius: 8px;
+    }
+    textarea {
+      width: 100%;
+      height: 200px;
+      padding: 10px;
+      font-size: 16px;
+      border: 1px solid #ccc;
+      border-radius: 8px;
+      box-sizing: border-box;
+      margin-bottom: 10px;
+    }
+    button {
+      margin-top: 10px;
+      padding: 10px 20px;
+      font-size: 16px;
+      border: none;
+      border-radius: 6px;
+      cursor: pointer;
+      background-color: #007bff;
+      color: white;
+    }
+    button:hover {
+      background-color: #0056b3;
+    }
+    .status {
+      margin-top: 10px;
+      font-size: 14px;
+      color: green;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- 头部区域：标题与返回主站按钮 -->
+  <div class="header-container">
+    <h1>网络粘贴板</h1>
+    <a href="https://ffraankk.github.io" class="back-btn">
+      ← 返回主站
+    </a>
+  </div>
+
+  <!-- 云端粘贴板区域 -->
+  <section id="cloud-section">
+    <h2>云端粘贴板 (JsonBin.io)</h2>
+    <textarea id="pasteContent" placeholder="输入或粘贴内容..."></textarea><br>
+    <button onclick="saveToBin()">保存内容</button>
+    <button onclick="loadFromBin()">加载内容</button>
+    <div id="status" class="status"></div>
+  </section>
+
+  <!-- 本地粘贴板区域 -->
+  <section id="local-section">
+    <h2>本地粘贴板 (Local Storage)</h2>
+    <textarea id="pasteArea" placeholder="在此输入或粘贴内容..."></textarea><br>
+    <button onclick="saveContent()">保存</button>
+    <button onclick="loadContent()">读取</button>
+    <button onclick="clearContent()">清除</button>
+    <div id="statusText" class="status"></div>
+  </section>
+
+  <script>
+    // ========================
+    // 云端粘贴板（JsonBin.io）
+    // ========================
+    // 替换为你自己的 JsonBin.io 信息
+    const BIN_ID = "你的Bin ID";
+    const API_KEY = "你的API Key";
+
+    async function saveToBin() {
+      const content = document.getElementById("pasteContent").value;
+      try {
+        const response = await fetch(`https://api.jsonbin.io/v3/b/${BIN_ID}`, {
+          method: "PUT",
+          headers: {
+            "Content-Type": "application/json",
+            "X-Master-Key": API_KEY
+          },
+          body: JSON.stringify({ text: content })
+        });
+        if (response.ok) {
+          document.getElementById("status").textContent = "✅ 内容已保存到云端";
+        } else {
+          document.getElementById("status").textContent = "❌ 保存失败";
+        }
+      } catch (err) {
+        console.error(err);
+        document.getElementById("status").textContent = "⚠️ 网络错误";
+      }
+    }
+
+    async function loadFromBin() {
+      try {
+        const response = await fetch(`https://api.jsonbin.io/v3/b/${BIN_ID}/latest`, {
+          method: "GET",
+          headers: {
+            "X-Master-Key": API_KEY
+          }
+        });
+        const data = await response.json();
+        document.getElementById("pasteContent").value = data.record.text || "";
+        document.getElementById("status").textContent = "📄 内容已加载";
+      } catch (err) {
+        console.error(err);
+        document.getElementById("status").textContent = "⚠️ 加载失败";
+      }
+    }
+
+    // =============================
+    // 本地粘贴板（Local Storage）
+    // =============================
+    const STORAGE_KEY = "simpleClipboard";
+
+    function saveContent() {
+      const content = document.getElementById("pasteArea").value;
+      localStorage.setItem(STORAGE_KEY, content);
+      document.getElementById("statusText").textContent = "✅ 内容已保存到本地。";
+    }
+
+    function loadContent() {
+      const content = localStorage.getItem(STORAGE_KEY) || "";
+      document.getElementById("pasteArea").value = content;
+      document.getElementById("statusText").textContent = "📄 已从本地加载内容。";
+    }
+
+    function clearContent() {
+      localStorage.removeItem(STORAGE_KEY);
+      document.getElementById("pasteArea").value = "";
+      document.getElementById("statusText").textContent = "🧹 内容已清除。";
+    }
+
+    // 页面加载时同时加载云端与本地内容
+    window.onload = function() {
+      loadFromBin();
+      loadContent();
+    }
+  </script>
+
+</body>
+</html>
