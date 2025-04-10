@@ -66,7 +66,7 @@ openSUSE-Tumbleweed             openSUSE Tumbleweed
 3. 在确保关闭以后，在目标目录新建文件夹，使用`wsl --export Ubuntu-22.04 <\path\ubuntu.tar>`
 4. 在目标位置出现后，注销原来的`wsl --unregister Ubuntu-22.04`
 5. 将刚刚导出的系统重新导入`wsl --import Ubuntu-22.04 \path \path\Ubuntu.tar`
-6.重新启动ubuntu
+6. 重新启动ubuntu
 
 假如默认进入的是root界面，我们需要设置默认用户。
 1. 打开具有管理员权限的Powershell。

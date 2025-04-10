@@ -168,6 +168,11 @@ conda create -n <envname> python=3.8
 ```
 conda activate <envname>
 ```
+### 禁用默认激活base环境
+```
+conda config --set auto_activate_base false
+```
+
 
 ## Miniconda 常用操作指南
 ---
